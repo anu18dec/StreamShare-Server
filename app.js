@@ -14,6 +14,10 @@ const io = new Server(appServer, {
     },
 });
 
+app.get("/", (req, res) => {
+    res.send("Server is running...");
+});
+
 const socketServices = new SocketServices(io);
 
 const PORT = process.env.PORT || 5005;
