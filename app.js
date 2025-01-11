@@ -10,6 +10,14 @@ const appServer = http.createServer(app);
 
 dotenv.config({ path: ".env" });
 
+const corsOptions = {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
 const io = new Server(appServer, {
     cors: {
         origin: process.env.CLIENT_URL,
@@ -18,14 +26,6 @@ const io = new Server(appServer, {
         credentials: true,
     },
 });
-
-const corsOptions = {
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-    optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
     res.send("Server is running...");
