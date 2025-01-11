@@ -16,6 +16,8 @@ const io = new Server(appServer, {
 
 const socketServices = new SocketServices(io);
 
-appServer.listen(5002, () => {
-    console.log("Server is running on port 5002...");
+const PORT = process.env.PORT || 5005;
+
+appServer.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}...`);
 });

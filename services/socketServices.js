@@ -6,7 +6,7 @@ class SocketServices {
 
     initializeSocket() {
         this.io.on("connection", (socket) => {
-            console.log("New socket connection made: ", socket);
+            console.log("New socket connection made: ", socket.id);
 
             this.createRoomEvents(socket);
             this.createChunkStreamingEvents(socket);
@@ -19,7 +19,7 @@ class SocketServices {
 
     createRoomEvents(socket) {
         socket.on("join-room", ({ username, roomId }) => {
-            socket.join(data.roomId);
+            socket.join(roomId);
             console.log("Joined the room: ", username);
 
             socket.broadcast.to(roomId).emit("join-notification", `${username} joined the room.`);
@@ -34,8 +34,8 @@ class SocketServices {
     }
 
     createChunkStreamingEvents(socket) {
-        socket.on("send-chunk", ({ roomId }) => {
-            const { chunk, filename, isLastChunk } = data;
+        socket.on("send-chunk", (data) => {
+            const { chunk, filename, isLastChunk, roomId } = data;
 
             socket.broadcast.to(roomId).emit("receive-chunk", {
                 chunk,
