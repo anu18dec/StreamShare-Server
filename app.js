@@ -10,36 +10,18 @@ const appServer = http.createServer(app);
 
 dotenv.config({ path: ".env" });
 
-// const corsOptions = {
-//     origin: process.env.CLIENT_URL,
-//     credentials: true,
-//     optionsSuccessStatus: 200,
-// };
+const corsOptions = {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+    optionsSuccessStatus: 200,
+};
 
-// app.use(cors(corsOptions));
-
-app.use(
-    cors({
-        origin: [process.env.CLIENT_URL],
-        credentials: true,
-    })
-);
-
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL);
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin,Content-Type, Authorization, x-id, Content-Length, X-Requested-With"
-    );
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    next();
-});
+app.use(cors(corsOptions));
 
 const io = new Server(appServer, {
     cors: {
         origin: process.env.CLIENT_URL,
-        methods: ["GET", "POST"],
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
         allowedHeaders: ["Content-Type"],
         credentials: true,
     },
