@@ -4,6 +4,13 @@ import { Server } from "socket.io";
 import SocketServices from "./services/socketServices.js";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import fs from "fs";
+
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const appServer = http.createServer(app);
@@ -26,6 +33,7 @@ const io = new Server(appServer, {
         credentials: true,
     },
 });
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
     res.send("Server is running...");
@@ -33,7 +41,7 @@ app.get("/", (req, res) => {
 
 const socketServices = new SocketServices(io);
 
-const PORT = process.env.PORT || 5005;
+const PORT = process.env.PORT || 6221;
 
 appServer.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}...`);
